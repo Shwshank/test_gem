@@ -1,0 +1,191 @@
+/*-----------------------------------------------------------
+  NABL Project: custom stylesheet For Landing Page Only
+  created on: 22-03-2018
+  created by: Anova tech Pvt. Ltd.
+------------------------------------------------------------*/
+ *,*:before, *:after{
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+    box-sizing: border-box;
+ }
+
+ *{
+   margin: 0;
+   padding:0;
+ }
+ @font-face {
+  font-family: 'titilliumregular';
+  src: url('../fonts/titillium-regular-webfont.woff2') format('woff2'), url('../fonts/titillium-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  background-color: #0d9ec0;
+}
+html, body {
+  font: normal 13px 'titilliumregular', sans-serif;
+  color: #333;
+  background: #aadaff url(../images/login_bg.jpg) no-repeat;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  overflow:hidden;
+
+}
+body {
+  opacity: 1;
+  transition: 3s opacity;
+}
+body.fade-out {
+  opacity: 0;
+  transition: none;
+}
+
+/*-------------------------------------------------------------
+                          landing-page-container
+  ---------------------------------------------------------------*/
+.conatiner-main{
+  width: 100%;
+  height: 100%;
+
+}
+
+.login-box{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+} 
+.nbl-logo{
+  text-align: center;
+  position: relative;
+  max-height: 40px;
+  top: -45px;
+}
+.nbl-logo img{
+  height: 90px;
+  width: 90px;
+}
+.login-box-contents {
+  width: 100%;
+  background: #0d9fc0 url(../images/login-box-bg.jpg) no-repeat;
+  background-size: cover;
+
+}
+.login-header{
+  width:100%;
+  border-bottom: 1px solid #1c8b9f;
+}
+.login-header > h2.page-title{
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 8px;
+  margin-top: 0px;
+  color: #03024f;
+}
+.signup-btn{
+  float: right;
+}
+.signInBtn{
+  background: #c1edff;
+  color: #1c2166;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #129ca9;
+}
+.signInBtn:hover{
+  background: #fff;
+  transition: all 3s;
+  color:#03024f; 
+  border: 1px solid #129ca9;
+
+}
+.content-title{
+  font-size: 28px;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.ctext-white{
+  font-size: 18px;
+  color: #fff;
+}
+.left-content{
+  border-right: 1px solid #0d859d;
+}
+
+.quick-counts > .num-count{
+  font-size: 72px;
+  color: #ffde00;
+  font-weight: normal;
+  line-height: 47px;
+}
+.quick-desc > .desc-text{
+  font-size: 24px;
+  color: #fff;
+  font-weight: normal;
+  line-height: 27px;
+  margin-top: 12px;
+}
+.inner-col-left{
+  border-right: 1px solid #1c8b9f;
+}
+.margin-top-20{
+  margin-top: 25px
+}
+.margin-bottom-10{
+  margin-bottom: 10px;
+}
+
+/*--------------------------------------------------------------
+                    Responsive Media Query
+---------------------------------------------------------------*/
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (max-width : 767px) {
+  .login-header > h2.page-title {
+    font-size: 18px;
+   }
+   .left-content {
+    border-right: 0;
+    border-bottom: 1px solid #0d859d;
+
+   }
+   .inner-col-left {
+      border-right: 0;
+      border-bottom: 1px solid #1c8b9f;
+   }
+   .ctext-white {
+    font-size: 14px;
+    color: #fff;
+   }
+   .signup-btn {
+    float: right;
+    margin-top: -37px;
+}
+.content-title {
+  font-size: 18px;
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.quick-counts > .num-count {
+  font-size: 34px;
+  color: #ffde00;
+  font-weight: normal;
+  line-height: 27px;
+}
+.quick-desc > .desc-text {
+  font-size: 18px;
+  color: #fff;
+  font-weight: normal;
+  line-height: 17px;
+  margin-top: 5px;
+}
+.signInBtn {
+  font-size: 12px;
+  padding: 4px;
+}
+  
+}
+  
+ 

@@ -1,0 +1,128 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+}
+</style>
+
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-university"></i> Student Medical Checkup
+                <button type="button" [disabled]="!selectedSchoolId" class="btn btn-primary btn-sm pull-right" (click)="openAddPopup()"><i class="fa fa-university"></i>&nbsp; Add new checkup</button>
+            </div>
+            <div class="card-body">
+
+
+
+                <div class="row form-group">
+                    <label class="col-md-1 col-form-label" for="schoolname">School:</label>
+                    <div class="col-md-3 form-group">
+                        <ng-select [items]="School_Data.rows"
+                        bindLabel="schoolname"
+                        bindValue="id"
+                        name="schoolname"
+                        placeholder="Select School"
+                        [(ngModel)]="selectedSchoolId"
+                        (ngModelChange)="search(false)">
+                        </ng-select>
+
+                    </div>
+                    <div class="col-md-2">
+                      <label class="radio-inline" for="inline-radio1">
+                        <input type="radio" id="inline-radio1" name="inline-radios" (click)="RadioClicked('m')" [(ngModel)]="gender" value="m"><i class="fa fa-male" aria-hidden="true"></i>
+                      </label>
+                      <label class="radio-inline" for="inline-radio2">
+                        <input type="radio" id="inline-radio2" name="inline-radios" (click)="RadioClicked('f')" [(ngModel)]="gender" value="f"> <i class="fa fa-female" aria-hidden="true"></i>
+                      </label>
+                      <label class="radio-inline" for="inline-radio3">
+                        <input type="radio" id="inline-radio3" name="inline-radios" (click)="RadioClicked('*')" [(ngModel)]="gender" value="*"> <i class="fa fa-star" aria-hidden="true"></i>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="input-group">
+                          <input class="form-control"    #drp="bsDaterangepicker"
+                           bsDaterangepicker [(ngModel)]="bsRangeValue">
+
+                        <span class="input-group-addon" (click)="drp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="row form-group">
+                      <label class="col-md-1 col-form-label" for="studNameOrId">Name/Id:</label>
+                      <div class="col-md-3">
+                        <input type="text" name="studNameOrId"  id="studNameOrId" maxlength="20" (keyup.enter)="search(false);"  [(ngModel)]="studNameOrId"  class="form-control">
+                      </div>
+                     
+                      <div class="col-md-2">
+                       <button type="button" class="btn btn-default" (click)="search(false)"><i class="fa fa-search"> Search</i></button>
+                      </div>
+
+                    </div>
+
+               <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                        <!-- <th> Id</th> -->
+                        <th>Date</th>
+                        <th>Student Name</th>
+                       
+                        <th>DOB</th>
+                        <th>School/Class/Section</th>
+                        <th>Conducted by</th>
+                        <th >Action</th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of StudentCheckup_Data.rows | paginate: { itemsPerPage: limit, currentPage: StudentCheckup_Data.current, totalItems: StudentCheckup_Data.total }">
+                          <!-- <td >{{item.studentid}}</td> -->
+                          <td >{{item.checkupdatems| date: 'dd-MM-yy'}}</td>
+                          <td>{{item.studentname}} 
+                            <br>
+                        <span *ngIf="item.studentgender=='m'" ><i class="fa fa-male"></i></span>
+                          <span *ngIf="item.studentgender=='f'"><i class="fa fa-female"></i></span>
+                          <span class="badge badge-success">   {{item.studentsixdigitid}}</span>
+                     
+                        </td>
+                          <td >{{item.dobms| date: 'dd-MM-yy'}}</td>
+                          <td>{{item.schoolname}} <br>
+                             {{item.student_class+'-'+item.studentsection}}</td>
+                        <td>{{item.doctors}}</td>
+
+
+                          <td >
+                            
+                            <button type="button" class="btn btn-primary btn-sm form-group" (click)="Edit(item)"><i class="fa fa-pencil-square-o"></i> &nbsp; Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm form-group" (click)="Delete(item)"><i class="fa fa-trash" ></i>&nbsp; Delete</button>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                    <tfoot >
+                      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                  </tfoot>
+                    </div>
+
+
+            </div>
+          </div>
+
+
+
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+
+

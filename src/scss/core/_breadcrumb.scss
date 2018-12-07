@@ -1,0 +1,7 @@
+.breadcrumb {
+  position: relative;
+  background-color:#cfd9db;
+  color: #778183;
+  @include borders($breadcrumb-borders);
+
+}

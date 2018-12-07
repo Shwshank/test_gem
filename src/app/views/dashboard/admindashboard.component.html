@@ -1,0 +1,256 @@
+<div class="animated fadeIn">
+  
+  <div class="row">
+    
+    <!-- <div class="col-sm-6 col-lg-3">
+        <a routerLink="/commonpages/labs">
+      <div class="card text-white bg-primary">
+        
+        <div class="card-body text-center">
+          <div><i class="fa fa-flask fa-5x" aria-hidden="true"></i></div>
+         
+         <h4>Labs ({{recordData.totalLabs}})</h4>
+        
+        </div>
+     
+      </div>
+    </a>
+    </div> -->
+    
+    <!-- <div class="col-sm-6 col-lg-3">
+          
+        <a routerLink="/commonpages/collectioncenter">
+      <div class="card text-white bg-warning">
+        <div class="card-body text-center">
+        <div>  <i class="fa fa-building fa-5x" aria-hidden="true"></i></div>
+
+         <h4>SCF ({{recordData.totalCollectionCenters}})</h4>         
+        </div>        
+      </div>
+    </a>
+    </div> -->
+
+    <div class="col-sm-6 col-lg-3">
+        <a routerLink="/admin/users">
+      <div class="card text-white bg-danger">
+          <div class="card-body text-center">
+              <div><i class="fa fa-users fa-5x" aria-hidden="true"></i></div>             
+             <h4>Users ({{recordData.totalUser}})</h4>            
+            </div>
+      </div>
+      </a>
+    </div>    
+
+    <!-- <div class="col-sm-6 col-lg-3">
+        <a routerLink="/map-viewer">
+      <div class="card text-white bg-info">
+          <div class="card-body text-center">          
+              <div><i class="fa fa-map fa-5x" aria-hidden="true"></i></div>      
+               <h4>Map Viewer</h4>
+               </div>
+
+              
+      </div>
+    </a>
+    </div> -->
+
+  </div>
+
+
+  <div class="row">
+
+    <!-- <div class="col-sm-6 col-lg-3">
+        <a routerLink="/commonpages/assessors">
+      <div class="card text-white bg-primary">
+          <div class="card-body text-center">
+          
+              <div><i class="fa fa-database fa-5x" aria-hidden="true"></i></div>      
+               <h5>Assessor Data ({{recordData.totalAssessorUser}})</h5>
+               </div>
+      </div>
+      </a>
+    </div> -->
+
+    <!-- <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-warning">
+          <div class="card-body text-center">
+          
+              <div><i class="fa fa-location-arrow fa-5x" aria-hidden="true"></i></div>
+
+      
+               <h5>Location based analysis</h5>
+               </div>
+      </div>
+    </div>
+    
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-danger">
+          <div class="card-body text-center">
+          
+              <div><i class="fa fa-pie-chart fa-5x" aria-hidden="true"></i></div>
+
+      
+               <h5>Assessment Result</h5>
+               </div>
+      </div>
+    </div> -->
+
+
+<!-- rrc -->
+
+<!-- <div class="col-sm-6 col-lg-3">
+  <a target="_self" href="../../assets/docs/admin.pdf" download="admin.pdf">
+    <div class="card text-white bg-success">
+        <div class="card-body text-center" title="Download Trainings">
+            <div><i class="fa fa-cloud-download fa-5x" aria-hidden="true"></i></div>
+            <h5>Trainings</h5>
+            </div>
+    </div>
+  </a>
+</div> -->
+
+<!-- rrc -->
+    
+  </div><!--/.row-->
+  
+
+  <!-- rrc -->
+  <!-- <div>
+    <button type="button" (click)="downloadTrainings()"
+    class="btn btn-success pull-left"><i class="fa fa-window-close" ></i>&nbsp; downloadTrainings</button>
+  </div> -->
+  <!-- rrc -->
+
+  
+<!-- widgets row -->
+
+  <!-- <div class="row"> 
+
+      <div class="col-sm-6 col-lg-3">
+          <div class="card">
+            <div class="card-body p-3 clearfix">              
+               <img class="mr-3 float-left" title="Applicant - SCF"
+                        src="./assets/mapImages/CollectionCentre-Applicant.png" alt="Applicant - SCF">
+              
+                  <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_scftotal_applicant}}</div>
+                  <div class="text-muted text-uppercase font-weight-bold font-xs">applicant - SCF</div>                            
+            </div>
+          </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+            <div class="card">
+              <div class="card-body p-3 clearfix">              
+                 <img class="mr-3 float-left" title="Allocated - SCF"
+                          src="./assets/mapImages/CollectionCentre-Allocated.png" alt="Allocated - SCF">
+                
+                    <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_scftotal_allocated}}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">allocated - SCF</div>                            
+              </div>
+            </div>
+      </div>
+          
+      <div class="col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="card-body p-3 clearfix">              
+                   <img class="mr-3 float-left" title="Assessed and Decision Pending - SCF" 
+                            src="./assets/mapImages/CollectionCentre-Assessed&DecisionPending.png" alt="Assessed and Decision Pending - SCF">
+                  
+                      <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_scftotal_adp}}</div>
+                      <div class="text-muted font-weight-bold font-xs">Asd. and Dec. Pending - SCF</div>                            
+                </div>
+              </div>
+      </div>      
+              
+
+    </div>
+
+    <div class="row">
+
+            
+        <div class="col-sm-6 col-lg-3">
+            <div class="card">
+              <div class="card-body p-3 clearfix">              
+                 <img class="mr-3 float-left" title="Recognized - SCF"
+                          src="./assets/mapImages/CollectionCentre-Recognized.png" alt="Recognized - SCF">
+                
+                    <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_totalrecgscf}}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Recognized - SCF</div>                            
+              </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card">
+              <div class="card-body p-3 clearfix">              
+                 
+                <img class="mr-3 float-left" title="Not Recognized - SCF"
+                     src="./assets/mapImages/CCnotRecg Red.png" alt="Not Recognized - SCF">                
+                
+                    <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_totalnotrecgscf}}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">Not Recognized - SCF</div>                            
+              </div>
+            </div>
+        </div>    
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card">
+              <div class="card-body p-3 clearfix">              
+                 <img class="mr-3 float-left" title="De-Recognized - SCF"
+                          src="./assets/mapImages/CollectionCentre-De-recognized.png" alt="De-Recognized - SCF">
+                
+                    <div class="h5 text-center text-success mb-0 mt-2">{{recordData.str_totalderecgscf}}</div>
+                    <div class="text-muted text-uppercase font-weight-bold font-xs">De-Recognized - SCF</div>                            
+              </div>
+            </div>
+        </div>    
+
+
+    </div> -->
+
+
+
+
+  <div class="row">
+
+      <div [hidden]="true" class="col-sm-6 col-lg-3">
+          <div class="card text-white bg-primary">
+            <div class="card-body pb-0">
+              <!-- <div class="btn-group float-right" dropdown>
+                <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+                  <i class="icon-settings"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div> -->
+              <h4 class="mb-0">SCF</h4>
+              <!-- <p>SCF</p> -->
+            </div>
+            <div class="chart-wrapper px-3" style="height:70px;">
+              <canvas baseChart class="chart"
+              [datasets]="barChart1Data"
+              [labels]="barChart1Labels"
+              [options]="barChart1Options"
+              [colors]="barChart1Colours"
+              [legend]="barChart1Legend"
+              [chartType]="barChart1Type"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+            </div>
+          </div>
+        </div><!--/.col-->
+
+      
+  </div>
+  <!-- ends widgets row -->
+
+
+
+
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+

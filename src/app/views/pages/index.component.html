@@ -1,0 +1,116 @@
+<style>
+  agm-map {
+    height: 449px;
+  }
+
+</style>
+
+
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+  <agm-marker *ngFor="let m of markers ; let i = index" [latitude]="m.latitude" [longitude]="m.longitude" [title]="m.name"
+    [iconUrl]="'/assets/mapImages/'+m.icon">
+
+    <agm-info-window [disableAutoPan]="false">
+      <strong>
+        <strong>Name: {{m.name}}</strong><br><br>
+        <strong>Address: {{m.address}}</strong><br><br>
+      </strong>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>
+<div class="container-fluid" style="background-color:#0d9fc0; background-image:url(assets/img/login-box-bg.jpg)">
+
+  <br>
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-12 text-center">
+      <!-- <img alt="NABL-Logo" src="/assets/images/nabl-logo.png"> -->
+      <!-- <span style="font-size: 30px;color: #03024f;font-family: sans-serif">Collection Centre Accreditation Application</span> -->
+      <span style="font-size: 30px;color: #03024f;font-family: sans-serif">Scheme for Recognising Sample Collection
+        Centre/Facility of Medical Laboratory</span>
+
+      <button class="btn btn-sm btn-default signInBtn pull-right" routerLink="/pages/login"><img src="/assets/images/user.png"
+          alt="user"> Sign in</button>
+
+    </div>
+
+  </div>
+  <hr>
+  <div class="row" style="color:white;font-family: sans-serif">
+    <div class="col-xs-6 col-sm-6">
+      <h3>Welcome/About NABL</h3>
+      <!-- rrc -->
+      <!-- <p style="font-size: 18px;">
+                                    
+                                    To Strengthen the accreditation system accepted across the globe by providing high quality, 
+                                    value driven services, fostering APLAC/ILAC MRA, empanelling competent assessors, creating 
+                                    awareness among the stake holders, initiating new programs supporting activities and pursuing 
+                                    organisational excellence. 
+                                    value driven services, fostering APLAC/ILAC MRA, empanelling competent assessors, creating 
+                                    awareness among the stake holders, initiating new programs supporting activities and pursuing 
+                                    organisational excellence. 
+                            </p> -->
+
+      <!-- rrc -->
+      <p style="font-size: 12px;">
+        National Accreditation Board for Testing and Calibration Laboratories (NABL), a Constituent Board of
+        Quality Council of India has been established with the objective of providing Government, Industry Associations
+        and Industry
+        in general with a scheme of Conformity Assessment Body’s accreditation which involves third-party assessment
+        of the technical competence of testing including medical and calibration laboratories, proficiency testing
+        providers and reference material producers.
+
+        NABL is a full member (MRA signatory) to International Laboratory Accreditation Co-operation (ILAC) as well as
+        Asia Pacific
+        Laboratory Accreditation Co-operation (APLAC) since 2000 on the basis of peer evaluation by APLAC as per
+        ISO/IEC 17011:2004.
+        <br>
+        <b>About NABL portal for Sample collection centres/facilities of Medical testing laboratories</b>
+        <br>
+        To keep the pace with new technologies, NABL endeavours to provide technology-driven, value based end-to-end
+        solutions to its
+        stakeholders. NABL has developed web-portal for the sample collection centres/ facilities of medical
+        laboratories to provide automated solutions for application, assessment, corrective action, and recognition of
+        the
+        declared sample collection centres/ facilities.
+      </p>
+
+    </div>
+    <div class="col-xs-6 col-sm-6">
+      <!-- <h3 >Quick Statistcs</h3> -->
+      <!-- rrc -->
+      <div class="row">
+
+        <div class="col-sm-2 col-xs-2"></div>
+
+        <div class="col-sm-5 col-xs-5">
+          <!-- <span style="font-size: 60px;color:gold">{{recordData.totalAccreditedCollectionCenters}}</span>
+                                    <p style="font-size: 22px;">Total number of accredited collection centres</p> -->
+          <!-- rrc -->
+
+          <!-- <img src="/assets/images/nabl-logo.png" width="50%" height="70%" alt="nabl-logo"> -->
+
+          <!-- <img src="/assets/images/NABL Logo (Web).png" alt="nabl-logo" > -->
+          <img src="/assets/images/qci_logo_web_trans.jpeg" width="200px" height="200px" alt="nabl-logo">
+
+          <!-- <img src="/assets/img/logo_transparent.png" width="55%" height="80%" alt="nabl-logo" > -->
+
+          <!-- <img src="/assets/img/logo.png" alt="NABL" class="img img-responsive"
+                                         style="opacity:0.4;filter:alpha(opacity=20);" > -->
+
+        </div>
+        <div class="col-sm-5 col-xs-5">
+          <!-- <span style="font-size: 60px;color:gold">{{recordData.totalLabs}}</span>
+                                    <p style="font-size: 22px;">Total number of Labs</p> -->
+          <!-- rrc -->
+
+          <!-- <img src="/assets/images/QCI Logo (Web).png" alt="qci-logo"> -->
+          <img src="/assets/images/qci_logo.png" alt="qci-logo">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>

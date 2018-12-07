@@ -1,0 +1,232 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+}
+</style>
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-users"></i> Admin
+          <button type="button" class="btn btn-primary btn-sm pull-right rounded" (click)="openAddPopup()"><i class="fa fa-user-plus"></i>&nbsp;Create
+            new</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <th>Role Type</th>
+                <th>Clainmed</th>
+                <th>Name</th>
+                <th>Email/Phone</th>
+                <th>Validity</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><i class="material-icons" style="color: blue; cursor: pointer;" (click)="ShowUserDetails(user)">Master1</i></td>
+                  <td>Data1</td>
+                  <td>Data1</td>
+                  <td>Data1</td>
+                  <td>Data1</td>
+                </tr>
+                <tr>
+                  <td><i class="material-icons" style="color: blue; cursor: pointer;" (click)="ShowUserDetails(user)">Master1</i></td>
+                  <td>Data2</td>
+                  <td>Data2</td>
+                  <td>Data2</td>
+                  <td>Data2</td>
+                </tr>
+              </tbody>
+
+            </table>
+            <tfoot>
+              <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+            </tfoot>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+
+  <!-- [hidden]="ShowHideDetails" -->
+  <div class="row" [hidden]="ShowHideDetails">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <b>Summary</b>
+          <button class="pull-right" type="button" class="btn btn-primary btn-sm pull-right rounded">View All</button>
+        </div>
+
+        <div class="card-body">
+
+          <form #myForm2="ngForm">
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" for="name">Name<span class="text text-danger">*</span></label>
+              <div class="col-md-4">
+                <input type="text" name="name" id="name" value="Master1" class="form-control" placeholder="Enter  Name"
+                  required disabled>
+              </div>
+              <label class="col-md-2 col-form-label" for="claim">Claim<span class="text text-danger">*</span></label>
+              <div class="col-md-4">
+                <input type="text" id="claim" name="claim" value="Data1" required class="form-control" placeholder="Enter claim"
+                  disabled>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label" for="email">Email<span class="text text-danger">*</span></label>
+              <div class="col-md-4">
+                <input type="email" id="email" name="email" value="Data1@gmail.com" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                  required class="form-control" placeholder="Enter Email" disabled>
+              </div>
+              <label class="col-md-2 col-form-label" for="mobile">Mobile<span class="text text-danger">*</span></label>
+              <div class="col-md-4">
+                <input type="text" id="mobile" name="mobile" value="0123456789" (keypress)="onlyNumberKey($event)"
+                  minlength="10" maxlength="10" required class="form-control" placeholder="Enter Mobile" disabled>
+              </div>
+
+            </div>
+
+
+            <div class="form-group row">
+
+              <label class="col-md-2 col-form-label" for="role">Role<span class="text text-danger">*</span></label>
+              <div class="col-md-4">
+                <select class="form-control" id="role" required disabled>
+                  <option value="">Admin</option>
+                  <option selected value="">Master</option>
+                  <option value="">Lab</option>
+                  <option value="">User</option>
+                </select>
+              </div>
+
+              <label class="col-md-2 col-form-label">Validity</label>
+              <div class="col-md-4">
+                <input type="date" id="Validity" name="Validity" value="05/12/2018" required class="form-control"
+                  placeholder="Enter Validity" disabled>
+              </div>
+
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Created On</label>
+              <div class="col-md-4">
+                <input type="date" id="Validity" name="Validity" value="01/12/2019" required class="form-control"
+                  placeholder="Enter Created" disabled>
+              </div>
+              <label class="col-md-2 col-form-label">Address</label>
+              <div class="col-md-4">
+                <textarea rows="4" cols="50" id="address" name="address" required class="form-control" placeholder="Enter Address"
+                  disabled>Data </textarea>
+              </div>
+
+
+            </div>
+
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<form #myForm="ngForm">
+  <div bsModal #EditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop:'static'}"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{label}}</h4>
+          <button type="button" class="close" (click)="Cancel()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="firstname">Name<span class="text text-danger">*</span></label>
+            <div class="col-md-4">
+              <input type="text" name="firstname" id="firstname" maxlength="50" class="form-control" placeholder="Enter  Name"
+                required>
+            </div>
+            <label class="col-md-2 col-form-label" for="lastname">Claimed<span class="text text-danger">*</span></label>
+            <div class="col-md-4">
+              <input type="text" id="claimed" name="claimed" maxlength="50" required class="form-control" placeholder="Enter Claimed">
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="email">Email<span class="text text-danger">*</span></label>
+            <div class="col-md-4">
+              <input type="email" id="email" name="email" maxlength="200" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                required class="form-control" placeholder="Enter Email">
+            </div>
+            <label class="col-md-2 col-form-label" for="mobile">Phone<span class="text text-danger">*</span></label>
+            <div class="col-md-4">
+              <input type="text" id="mobile" name="mobile" (keypress)="onlyNumberKey($event)" minlength="10" maxlength="10"
+                required class="form-control" placeholder="Enter Phone No.">
+            </div>
+
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="role">Role<span class="text text-danger">*</span></label>
+            <div class="col-md-4">
+              <select class="form-control" id="role" name="role" required disabled>
+                <option value="">Admin</option>
+                <option selected value="">Master</option>
+                <option value="">Lab</option>
+                <option value="">User</option>
+              </select>
+            </div>
+
+            <label class="col-md-2 col-form-label">Validity</label>
+            <div class="col-md-4">
+              <input type="date" id="Validity" name="Validity" maxlength="200" required class="form-control"
+                placeholder="Enter Created" required>
+            </div>
+
+          </div>
+
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label">Address</label>
+            <div class="col-md-4">
+              <textarea rows="3" cols="50" id="address" name="address" maxlength="200" required class="form-control"
+                placeholder="Enter Address"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="Cancel()">Close</button>
+          <button type="button" [disabled]="!myForm.form.valid" class="btn btn-success" [ladda]="progress" (click)="Save()">Save</button>
+
+        </div>
+      </div>
+      <!--/.modal-content -->
+    </div>
+    <!--/.modal-dialog -->
+  </div>
+  <!--/.modal -->
+</form>
+
+
+
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>

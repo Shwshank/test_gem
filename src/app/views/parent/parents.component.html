@@ -1,0 +1,114 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+}
+</style>
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-child"></i><i class="fa fa-child"></i> My Children
+                <button type="button" class="btn btn-primary btn-sm pull-right" (click)="openAddPopup()"><i class="fa fa-university"></i>&nbsp; Add Children</button>
+            </div>
+            <!-- <div class="card-body">
+
+            
+               <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                        <th > Id</th>
+                        <th >Name</th>
+                        <th>School</th>
+                        <th >DOB</th>
+
+                        <th >Action</th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of Parent_ChildData.students | paginate: { itemsPerPage: limit, currentPage: Parent_ChildData.current, totalItems: Parent_ChildData.total }">
+                          <td >{{item.studentid}}</td>
+                          <td >{{item.studentfullname}}
+                          <br>
+                            <span *ngIf="item.studentgender=='m'" ><i class="fa fa-male"></i></span>
+                            <span *ngIf="item.studentgender=='f'"><i class="fa fa-female"></i></span>
+                           Class: {{item.studentclass+'-'+item.studentsection}}
+                        
+                                                    </td>
+                         <td>{{item.schoolname}}</td>
+                          <td >{{item.studentdobms| date: 'dd-MM-yyyy'}}</td>
+                          <td >
+                          
+                           
+                            <button type="button" class="btn btn-danger btn-sm form-group" (click)="DeleteParentStudent(item.studentid)"><i class="fa fa-trash" ></i>&nbsp; Delete</button>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                    <tfoot >
+                      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                  </tfoot>
+                    </div>
+
+
+           
+          </div> -->
+</div>
+
+
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+<form #myForm="ngForm">
+  <div bsModal #EditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-primary" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{label}}</h4>
+            <button type="button" class="close" (click)="Cancel()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+            
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="studSixId">StudentId<span class="text text-danger">*</span></label>
+              <div class="col-md-5">
+                <input type="text" name="studSixId"  id="studSixId" maxlength="6"  [(ngModel)]="studentSixDigitId" #studSixId="ngModel" class="form-control" placeholder="Enter Student Six Digit Id" required>
+
+                <div *ngIf="studSixId.errors && (studSixId.dirty || studSixId.touched)" class="help-block alert alert-danger">
+                  <div [hidden]="!studSixId.errors.required">
+                  Student Id is required
+                  </div>
+                  <div [hidden]="!studSixId.errors.maxlength">
+                  student id can not be more than 6 characters long
+                  </div>
+                </div>
+              </div>
+   
+            </div>
+            </div>
+
+         
+          <div class="modal-footer">
+            <button type="button"  [disabled]="!myForm.form.valid" class="btn btn-success" [ladda]="progress" (click)="AddStudent(studentSixDigitId)">Add</button>
+             </div>
+         
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+
+

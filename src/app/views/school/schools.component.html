@@ -1,0 +1,264 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+}
+</style>
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-university"></i> School Master
+                <button type="button" class="btn btn-primary btn-sm pull-right" (click)="openAddPopup()"><i class="fa fa-university"></i>&nbsp; Add New School</button>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 offset-md-8">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+
+                        <input type="text" class="form-control" [(ngModel)]="filterKeys"  (keyup.enter)="search();" placeholder="Search"/>
+                      </div>
+                    </div>
+                  </div>
+               <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <!-- <th>Id</th> -->
+                        <th>School Name</th>
+                        <th>City</th>
+                        <th>email</th>
+
+                        <th>Contact Person</th>
+                       <th>Status</th>
+                       <th>Notes</th>
+                        <th>Action</th>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of School_Data.rows | paginate: { itemsPerPage: limit, currentPage: School_Data.current, totalItems: School_Data.total }">
+                          <!-- <td>{{item.id}}</td> -->
+                          <td>{{item.schoolname}}</td>
+                          <td>{{item.city}}</td>
+                          <td>{{item.email}}</td>
+                          <td>{{item.contactperson}}</td>
+
+
+
+                          <td>
+                              <span *ngIf="item.isactive==true" class="badge badge-success">Active</span>
+                              <span *ngIf="item.isactive==false" class="badge badge-secondary">Inactive</span>
+
+
+                          </td>
+                          <td>{{item.notes}}</td>
+                          <td>
+                              <button type="button" class="btn btn-primary btn-sm form-group" (click)="Edit(item)"><i class="fa fa-pencil-square-o"></i>&nbsp; Edit</button>
+                              <button type="button" class="btn btn-danger btn-sm form-group" (click)="Delete(item)"><i class="fa fa-trash" ></i>&nbsp; Delete </button>
+
+
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                    <tfoot >
+                      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                  </tfoot>
+                    </div>
+
+
+            </div>
+          </div>
+
+
+
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+<form #myForm="ngForm">
+  <div bsModal #EditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-primary" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{label}}</h4>
+            <button type="button" class="close" (click)="Cancel()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="schoolname">School Name<span class="text text-danger">*</span></label>
+              <div class="col-md-9">
+                <input type="text" name="schoolname"  id="schoolname" maxlength="50"  [(ngModel)]="Edit_SchoolData.schoolname" #schoolname="ngModel" class="form-control" placeholder="Enter First Name" required>
+
+                <div *ngIf="schoolname.errors && (schoolname.dirty || schoolname.touched)" class="help-block alert alert-danger">
+                  <div [hidden]="!schoolname.errors.required">
+                  schoolname name required
+                  </div>
+                  <div [hidden]="!schoolname.errors.maxlength">
+                  schoolname name can not be more than 50 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="city">City<span class="text text-danger">*</span></label>
+              <div class="col-md-9">
+                <input type="text" id="city" name="city" maxlength="50"  [(ngModel)]="Edit_SchoolData.city" required #city="ngModel" class="form-control" placeholder="Enter city">
+                <div *ngIf="city.errors && (city.dirty || city.touched)" class="alert alert-danger">
+                    <div [hidden]="!city.errors.required">
+                      city required
+                    </div>
+                    <div [hidden]="!city.errors.maxlength">
+                      city can not be more than 50 characters long
+                    </div>
+                    </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="mobile">School Mobile
+                  <!-- <span class="text text-danger">*</span> -->
+                </label>
+                <div class="col-md-9">
+                  <input type="text" id="mobile" name="mobile" (keypress)="onlyNumberKey($event)" minlength="10" maxlength="10"  [(ngModel)]="Edit_SchoolData.mobile" #mobile="ngModel"  class="form-control" placeholder="Enter School Mobile">
+                  <div *ngIf="mobile.errors && (mobile.dirty || mobile.touched)" class="alert alert-danger">
+                    <div [hidden]="!mobile.errors.maxlength">
+                      school mobile can not be more than 10 characters long
+                  </div>
+                  <div [hidden]="!mobile.errors.minlength">
+                    school mobile can not be less than 10 characters
+                </div>
+                      </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="email">School Email
+                <!-- <span class="text text-danger">*</span> -->
+              </label>
+                <div class="col-md-9">
+                <input type="email"  id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"  [(ngModel)]="Edit_SchoolData.email" #email="ngModel"  class="form-control" placeholder="Enter School Email">
+                <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+              
+                <div [hidden]="!email.errors.pattern">
+                invalid email id
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="contactperson">Contact Person
+                  <!-- <span class="text text-danger">*</span> -->
+                </label>
+                <div class="col-md-9">
+                  <input type="text" name="contactperson"  id="contactperson" maxlength="50"  [(ngModel)]="Edit_SchoolData.contactperson" #contactperson="ngModel" class="form-control" placeholder="Enter Contact Person Name">
+
+                  <div *ngIf="contactperson.errors && (contactperson.dirty || contactperson.touched)" class="help-block alert alert-danger">
+                   
+                    <div [hidden]="!contactperson.errors.maxlength">
+                      Contact Person name can not be more than 50 characters long
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                  <label class="col-md-3 col-form-label" for="contactpersonemail">Contact Person Email
+                    
+                  </label>
+                  <div class="col-md-9">
+                    <input type="email"  id="contactpersonemail" name="contactpersonemail" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"  [(ngModel)]="Edit_SchoolData.contactpersonemail" #contactpersonemail="ngModel"  class="form-control" placeholder="Enter Contact Person Email">
+                    <div *ngIf="contactpersonemail.errors && (contactpersonemail.dirty || contactpersonemail.touched)" class="alert alert-danger">
+                       
+                        <div [hidden]="!contactpersonemail.errors.pattern">
+                          invalid email id
+                        </div>
+                        </div>
+                  </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="contactpersonmobile">Contact Person Mobile
+                  <!-- <span class="text text-danger">*</span> -->
+                </label>
+                <div class="col-md-9">
+                  <input type="text" id="contactpersonmobile" name="contactpersonmobile" (keypress)="onlyNumberKey($event)" minlength="10" maxlength="10"  [(ngModel)]="Edit_SchoolData.contactpersonmobile" #contactpersonmobile="ngModel"  class="form-control" placeholder="Enter Mobile">
+                  <div *ngIf="contactpersonmobile.errors && (contactpersonmobile.dirty || contactpersonmobile.touched)" class="alert alert-danger">
+                     
+                      <div [hidden]="!contactpersonmobile.errors.maxlength">
+                          mobile can not be more than 10 characters long
+                      </div>
+                      <div [hidden]="!contactpersonmobile.errors.minlength">
+                        mobile can not be less than 10 characters
+                    </div>
+                      </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Active</label>
+                <div class="col-md-9">
+
+                    <label class="switch switch-icon switch-success">
+                        <input type="checkbox" class="switch-input" name="isactive" [(ngModel)]="Edit_SchoolData.isactive">
+                        <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="address">Address
+                  <!-- <span class="text text-danger">*</span> -->
+                </label>
+                <div class="col-md-9">
+                    <textarea id="address" name="address" rows="3" maxlength="200" [(ngModel)]="Edit_SchoolData.address" class="form-control" #address="ngModel" placeholder="address.."></textarea>
+                  <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+                      <!-- <div [hidden]="!address.errors.required">
+                          address is required
+                      </div> -->
+                      <div [hidden]="!address.errors.maxlength">
+                        address can not be more than 200 characters long
+                      </div>
+                      </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="notes">Notes</label>
+                <div class="col-md-9">
+                  <textarea id="notes" name="notes" rows="3" maxlength="200" [(ngModel)]="Edit_SchoolData.notes" #notes="ngModel" class="form-control" placeholder="Content.."></textarea>
+                  <div *ngIf="notes.errors && (notes.dirty || notes.touched)" class="alert alert-danger">
+
+                      <div [hidden]="!notes.errors.maxlength">
+                          notes can not be more than 200 characters long
+                      </div>
+                      </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="Cancel()">Close</button>
+            <!-- <button type="button" [hidden]="Edit_SchoolData.id==null" [disabled]="!myForm.form.valid" class="btn btn-default" [ladda]="progress" (click)="Action(Edit_SchoolData)">Update</button> -->
+            <button type="button"  [disabled]="!myForm.form.valid" class="btn btn-success" [ladda]="progress" (click)="Action(Edit_SchoolData)">Save</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </form>
+
+
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+
+

@@ -1,0 +1,72 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+  
+}
+</style>
+
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-university"></i> School Billing
+                
+            </div>
+            <div class="card-body">
+
+
+
+                <div class="row form-group">
+                    <label class="col-md-1 col-form-label" for="schoolname">School:</label>
+                    <div class="col-md-4 form-group">
+                        <ng-select [items]="School_Data.rows"
+                        bindLabel="schoolname"
+                        bindValue="id"
+                        name="schoolname"
+                        placeholder="Select School"
+                        [(ngModel)]="selectedSchoolId">
+                        </ng-select>
+
+                    </div>
+                  
+                    <div class="col-md-4">
+                      <div class="input-group">
+                          <input class="form-control"    #drp="bsDaterangepicker"
+                           bsDaterangepicker [(ngModel)]="bsRangeValue">
+
+                        <span class="input-group-addon" (click)="drp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <button type="button" [disabled]="!selectedSchoolId" class="btn btn-primary pull-right" (click)="DownloadFile(selectedSchoolId)"><i class="fa fa-download"></i>&nbsp; Download Excel</button>
+                    </div>
+
+
+                  </div>
+                  <div class="row form-group" [hidden]="!IsShowProgress">
+                    <div class="col-sm-12" >
+                      <p><ngb-progressbar type="warning" [value]="100" [striped]="true" [animated]="true"><i></i></ngb-progressbar></p>
+                    </div>
+                  </div>
+                 
+
+              
+
+
+            </div>
+          </div>
+
+
+
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+
+

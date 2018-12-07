@@ -1,0 +1,343 @@
+<style>
+  .disabled {
+  cursor: not-allowed;
+}
+</style>
+<div class="animated fadeIn">
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-university"></i> Student Master
+                <button type="button" [disabled]="!selectedSchoolId" class="btn btn-primary btn-sm pull-right" (click)="openAddPopup()"><i class="fa fa-university"></i>&nbsp; Add New Student</button>
+            </div>
+            <div class="card-body">
+
+              <div class="container-fluid">
+
+                <div class="row form-group">
+                    <label class="col-md-2 col-form-label" for="schoolname">School:</label>
+                    <div class="col-md-3">
+                        <ng-select [items]="School_Data.rows"
+                        bindLabel="schoolname"
+                        bindValue="id"
+                        name="schoolname"
+                        [disabled]="schoolId>0"
+                        placeholder="Select School"
+                        [(ngModel)]="selectedSchoolId"
+                        (ngModelChange)="search(false)">
+             </ng-select>
+
+
+                    </div>
+                    <div class="col-md-2">
+                      <label class="radio-inline" for="inline-radio1">
+                        <input type="radio" id="inline-radio1" name="inline-radios" (click)="RadioClicked('m')" [(ngModel)]="gender" value="m"><i class="fa fa-male" aria-hidden="true"></i>
+                      </label>
+                      <label class="radio-inline" for="inline-radio2">
+                        <input type="radio" id="inline-radio2" name="inline-radios" (click)="RadioClicked('f')" [(ngModel)]="gender" value="f"> <i class="fa fa-female" aria-hidden="true"></i>
+                      </label>
+                      <label class="radio-inline" for="inline-radio3">
+                        <input type="radio" id="inline-radio3" name="inline-radios" (click)="RadioClicked('*')" [(ngModel)]="gender" value="*"> <i class="fa fa-star" aria-hidden="true"></i>
+                      </label>
+                    </div>
+                    <div class="col-md-3">
+                      <label>Age (Years): {{rangeValues[0] + ' - ' + rangeValues[1]}}</label>
+                        <p-slider name="rangeslider" [min]="0" (onChange)="rangeSliderChange($event)" [max]="20" [(ngModel)]="rangeValues" [style]="{'width':'200px'}" [range]="true"></p-slider>
+                    </div>
+
+                  </div>
+                  <div class="row form-group">
+                      <label class="col-md-2 col-form-label" for="studNameOrId">Name/Id:</label>
+                      <div class="col-md-3">
+                        <input type="text" name="studNameOrId"  id="studNameOrId" maxlength="20"  (keyup.enter)="search(false);"  [(ngModel)]="studNameOrId"  class="form-control">
+                      </div>
+                      <div class="col-md-2">
+                       <button type="button" class="btn btn-default" (click)="search(false)"><i class="fa fa-search"> Search</i></button>
+                      </div>
+
+                    </div>
+
+               <div class="table-responsive">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                        <th > Id</th>
+                        <th >Student</th>
+                        <th>School Name</th>
+                        <th >DOB</th>
+                        <th >Action</th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of Student_Data.rows | paginate: { itemsPerPage: limit, currentPage: Student_Data.current, totalItems: Student_Data.total }">
+                          <td >{{item.studentid}}</td>
+                          <td >{{item.fullname}}
+                          <br>
+                            <span *ngIf="item.studentgender=='m'" ><i class="fa fa-male"></i></span>
+                            <span *ngIf="item.studentgender=='f'"><i class="fa fa-female"></i></span>
+                           Class: {{item.student_class+'-'+item.studentsection}}
+                            <br>
+                            <span *ngIf="item.isactive==true" class="badge badge-success">Active</span>
+                            <span *ngIf="item.isactive==false" class="badge badge-secondary">Inactive</span>
+
+
+                          </td>
+                         <td>{{item.schoolname}}</td>
+                          <td >{{item.dobms| date: 'dd-MM-yyyy'}}</td>
+
+
+
+                          <td >
+                            <button type="button" class="btn btn-success btn-sm form-group" (click)="SelectStudent(item)">Select</button>
+                            <button type="button" class="btn btn-primary btn-sm form-group" (click)="Edit(item)"><i class="fa fa-pencil-square-o"></i>&nbsp; Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm form-group" (click)="Delete(item)"><i class="fa fa-trash" ></i>&nbsp; Delete</button>
+
+
+
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                    <tfoot >
+                      <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                  </tfoot>
+                    </div>
+
+
+            </div>
+          </div>
+</div>
+
+
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+<form #myForm="ngForm">
+  <div bsModal #EditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-primary" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{label}}</h4>
+            <button type="button" class="close" (click)="Cancel()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" >
+            <div class="form-group row">
+                <label class="col-md-12 col-form-label text-center" ><h6>{{SCHOONAME}}</h6></label>
+              </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="firstname">First Name<span class="text text-danger">*</span></label>
+              <div class="col-md-9">
+                <input type="text" name="firstname"  id="firstname" maxlength="20"  [(ngModel)]="Edit_StudentData.firstname" #firstname="ngModel" class="form-control" placeholder="Enter First Name" required>
+
+                <div *ngIf="firstname.errors && (firstname.dirty || firstname.touched)" class="help-block alert alert-danger">
+                  <div [hidden]="!firstname.errors.required">
+                    firstname name required
+                  </div>
+                  <div [hidden]="!firstname.errors.maxlength">
+                    firstname name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="middlename">Middle Name</label>
+              <div class="col-md-9">
+                <input type="text" name="middlename"  id="middlename" maxlength="20"  [(ngModel)]="Edit_StudentData.middlename" #middlename="ngModel" class="form-control" placeholder="Enter Middle Name">
+
+                <div *ngIf="middlename.errors && (middlename.dirty || middlename.touched)" class="help-block alert alert-danger">
+
+                  <div [hidden]="!middlename.errors.maxlength">
+                    middlename name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="lastname">Last Name</label>
+              <div class="col-md-9">
+                <input type="text" name="lastname"  id="lastname" maxlength="20"  [(ngModel)]="Edit_StudentData.lastname" #lastname="ngModel" class="form-control" placeholder="Enter Last Name">
+
+                <div *ngIf="lastname.errors && (lastname.dirty || lastname.touched)" class="help-block alert alert-danger">
+
+                  <div [hidden]="!lastname.errors.maxlength">
+                    lastname name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="fathername">Father's Name</label>
+              <div class="col-md-9">
+                <input type="text" name="fathername"  id="fathername" maxlength="20"  [(ngModel)]="Edit_StudentData.fathername" #fathername="ngModel" class="form-control" placeholder="Enter Father's Name">
+
+                <div *ngIf="fathername.errors && (fathername.dirty || fathername.touched)" class="help-block alert alert-danger">
+
+                  <div [hidden]="!fathername.errors.maxlength">
+                    fathername name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="mothername">Mother's Name</label>
+              <div class="col-md-9">
+                <input type="text" name="mothername"  id="mothername" maxlength="20"  [(ngModel)]="Edit_StudentData.mothername" #mothername="ngModel" class="form-control" placeholder="Enter Mother's Name" >
+
+                <div *ngIf="mothername.errors && (mothername.dirty || mothername.touched)" class="help-block alert alert-danger">
+
+                  <div [hidden]="!mothername.errors.maxlength">
+                    mothername name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">Select DOB<span class="text text-danger">*</span></label>
+              <div class="col-md-9">
+
+                <div class="input-group">
+                  <input type="text"
+                  class="form-control"
+                  id="dob"
+                  name="dob"
+                  [maxDate]="maxDate"
+                  #dp="bsDatepicker"
+
+                  bsDatepicker [(ngModel)]="Edit_StudentData.dob" #dob="ngModel" required>
+                  <span class="input-group-addon" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+                <div *ngIf="dob.errors && (dob.dirty || dob.touched)" class="help-block alert alert-danger">
+                  <div [hidden]="!dob.errors.required">
+                    Date of birth required
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label">Gender</label>
+              <div class="col-md-9">
+
+                  <label class="radio-inline" for="inline-Editradios1">
+                    <input type="radio" id="inline-Editradios2" name="inline-Editradios"  [(ngModel)]="Edit_StudentData.studentgender" value="m"><i class="fa fa-male" aria-hidden="true"></i>
+                  </label>
+                  <label class="radio-inline" for="inline-Editradios2">
+                    <input type="radio" id="inline-Editradios2" name="inline-Editradios" [(ngModel)]="Edit_StudentData.studentgender" value="f"> <i class="fa fa-female" aria-hidden="true"></i>
+                  </label>
+
+            </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="studentclass">Student Class<span class="text text-danger">*</span></label>
+              <div class="col-md-9">
+            <select id="studentclass" name="studentclass" class="form-control" [(ngModel)]="Edit_StudentData.studentclass" #studentclass="ngModel" required>
+
+              <option value="-3">Nursery</option>
+              <option value="-2">L.K.G</option>
+              <option value="-1">U.K.G</option>
+              <option value="0">PREP</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="12">12</option>
+
+            </select>
+            <div *ngIf="studentclass.errors && (studentclass.dirty || studentclass.touched)" class="help-block alert alert-danger">
+              <div [hidden]="!studentclass.errors.required">
+                student class required
+              </div>
+
+            </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="studentsection">Student Section</label>
+              <div class="col-md-9">
+                <input type="text" name="studentsection"  id="studentsection" maxlength="20"  [(ngModel)]="Edit_StudentData.studentsection" #studentsection="ngModel" class="form-control" placeholder="Enter Student Section">
+
+                <div *ngIf="studentsection.errors && (studentsection.dirty || studentsection.touched)" class="help-block alert alert-danger">
+
+                  <div [hidden]="!studentsection.errors.maxlength">
+                    student Section name can not be more than 20 characters long
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label">Active</label>
+                <div class="col-md-9">
+
+                    <label class="switch switch-icon switch-success">
+                        <input type="checkbox" class="switch-input" name="isactive" [(ngModel)]="Edit_StudentData.isactive">
+                        <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                </div>
+              </div>
+
+
+
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="notes">Notes</label>
+                <div class="col-md-9">
+                  <textarea id="notes" name="notes" rows="3" maxlength="200" [(ngModel)]="Edit_StudentData.notes" #notes="ngModel" class="form-control" placeholder="Content.."></textarea>
+                  <div *ngIf="notes.errors && (notes.dirty || notes.touched)" class="alert alert-danger">
+
+                      <div [hidden]="!notes.errors.maxlength">
+                          notes can not be more than 200 characters long
+                      </div>
+                      </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="Cancel()">Close</button>
+            <!-- <button type="button" [hidden]="Edit_StudentData.id==null" [disabled]="!myForm.form.valid" class="btn btn-default" [ladda]="progress" (click)="Action(Edit_StudentData)">Update</button> -->
+            <button type="button" [disabled]="!myForm.form.valid" class="btn btn-success" [ladda]="progress" (click)="Action(Edit_StudentData)">Save</button>
+
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </form>
+
+
+
+<sk-cube-grid [isRunning]="spinnerCubeDisplay"></sk-cube-grid>
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+
+
